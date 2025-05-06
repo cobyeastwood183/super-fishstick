@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic HTML Site</title>
+    <script
+        src="https://js.sentry-cdn.com/21d3b359c319f565d9b4613a049e317e.min.js"
+        crossorigin="anonymous"
+    ></script>
+    <script>
+        Sentry.onLoad(function() {
+          Sentry.init({
+              environment: "production",
+            });
+        });
+      </script>
+</head>
+<body>
+    <h1>Welcome to My Basic Site</h1>
+    <p>This is a simple HTML page with JavaScript.</p>
+    
+    <button onclick="window.testError()">Throw Error</button>
+    <button onclick="testUndefinedError()">Throw Undefined Error</button>
+    
+    <script type="module">
+        import { testError } from './index.js';
+        window.testError = testError;
+    </script>
+    <script type="module" src="index.js"></script>
+</body>
+</html> 
