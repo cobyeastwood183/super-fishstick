@@ -21,7 +21,10 @@ const clientOptions = {
   transport: makeFetchTransport,
   stackParser: defaultStackParser,
   integrations: integrations,
-  debug: true,
+  beforeSend(event) {
+    console.log("client 1", event);
+    return event; // Returning `null` prevents the event from being sent
+  },
 }
 
 const scopeA = new Scope();
@@ -33,30 +36,15 @@ clientA.init();
 scopeA.captureException(new Error("example"));
 
 export function testError() {
-    Sentry.withScope(scopeA, () => {   
-        scopeA.setTag("scopeA", "test scope A value");
-        scopeA.captureMessage("test scope A message");
-        try {
-            throw new Error("This is a test error!");
-        } catch (error) {
-            Sentry.captureException(error);
-        }
-    });
+    scopeA.setTag("scopeA", "test scope A value");
+    scopeA.captureMessage("testing");
+    try {
+        throw new Error("testing_2");
+    } catch (error) {
+       scopeA.captureException(error);
+    }
 }
 
-// Wait for the DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('JavaScript is working!');
     
-    // Add a click event to the h1 element
-    const heading = document.querySelector('h1');
-    heading.addEventListener('click', () => {
-        alert('You clicked the heading!');
-    });
-
-    // Add a click event to the p element
-    const paragraph = document.querySelector('p');
-    paragraph.addEventListener('click', () => {
-        alert('You clicked the paragraph!');
-    });
 }); 
