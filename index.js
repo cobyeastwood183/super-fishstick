@@ -1,4 +1,3 @@
-import * as Sentry from "@sentry/browser";
 import {
     BrowserClient,
     defaultStackParser,
@@ -7,17 +6,17 @@ import {
     Scope,
   } from "@sentry/browser";
   // filter integrations that use the global variable
-  const integrations = getDefaultIntegrations({}).filter(
-    (defaultIntegration) => {
-      return !["BrowserApiErrors", "Breadcrumbs", "GlobalHandlers"].includes(
-        defaultIntegration.name,
-      );
-    },
-  );
+const integrations = getDefaultIntegrations({}).filter(
+  (defaultIntegration) => {
+    return !["BrowserApiErrors", "Breadcrumbs", "GlobalHandlers"].includes(
+      defaultIntegration.name,
+    );
+  },
+);
 
 // Initialize Sentry
 const clientOptions = {
-  dsn: "https://3a8a5071ca1eed15eb44e85588c11838@o4508337845829632.ingest.us.sentry.io/4509277770809344", // Replace with your actual Sentry DSN
+  dsn: "", // Replace with your actual Sentry DSN
   transport: makeFetchTransport,
   stackParser: defaultStackParser,
   integrations: integrations,
@@ -28,7 +27,7 @@ const clientOptions = {
 }
 
 const scopeA = new Scope();
-const clientA = new BrowserClient({...clientOptions, environment: "scope_a"});
+const clientA = new BrowserClient({...clientOptions, environment: "scope_a", release: "1.0.0"});
 
 scopeA.setClient(clientA);
 clientA.init();
